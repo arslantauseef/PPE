@@ -31,6 +31,10 @@ python -m cctv_monitor video input.mp4 --output annotated.mp4 --database events.
 
 The built-in OpenCV HOG detector identifies people only. PPE classes are not inferred by this detector and must not be represented as detected; a PPE model adapter is a separate milestone.
 
+## Model status
+
+The reproducible person-model download is `scripts/download_person_model.sh`. It downloads YOLOv4-tiny COCO weights/configuration and records expected SHA-256 values in `models/SHA256SUMS`. This model supports `person` detection only; it does **not** support cap, apron, glove, or hairnet detection. Those classes require a separately licensed pretrained PPE model.
+
 The same command accepts an OpenCV camera/device index. Use `--max-frames` for a bounded smoke test; omit it for continuous operation and stop with Ctrl+C:
 
 ```bash
