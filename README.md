@@ -31,6 +31,14 @@ python -m cctv_monitor video input.mp4 --output annotated.mp4 --database events.
 
 The built-in OpenCV HOG detector identifies people only. PPE classes are not inferred by this detector and must not be represented as detected; a PPE model adapter is a separate milestone.
 
+To inspect locally stored events in a browser or integrate them with a future frontend:
+
+```bash
+python -m cctv_monitor dashboard --database events.sqlite3
+```
+
+The local page is available at `http://127.0.0.1:8765/`; JSON events are at `/api/events`.
+
 The demo uses synthetic observations only. It creates a local SQLite database and CSV report.
 
 ## Status vocabulary
