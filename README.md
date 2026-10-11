@@ -31,6 +31,12 @@ python -m cctv_monitor video input.mp4 --output annotated.mp4 --database events.
 
 The built-in OpenCV HOG detector identifies people only. PPE classes are not inferred by this detector and must not be represented as detected; a PPE model adapter is a separate milestone.
 
+The same command accepts an OpenCV camera/device index. Use `--max-frames` for a bounded smoke test; omit it for continuous operation and stop with Ctrl+C:
+
+```bash
+python -m cctv_monitor video 0 --output live.mp4 --database live.sqlite3 --csv live.csv --max-frames 300
+```
+
 To inspect locally stored events in a browser or integrate them with a future frontend:
 
 ```bash

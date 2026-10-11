@@ -59,7 +59,7 @@ class CentroidTracker:
         return result
 
 
-def process_video(source: str | Path, output: str | Path, detector: Detector, policy: Policy, database: str | Path, csv_path: str | Path) -> int:
+def process_video(source: str | int | Path, output: str | Path, detector: Detector, policy: Policy, database: str | Path, csv_path: str | Path, max_frames: int | None = None) -> int:
     """Process an MP4 locally and return the number of frames written."""
     import cv2
     from .store import EventStore
@@ -89,6 +89,8 @@ def process_video(source: str | Path, output: str | Path, detector: Detector, po
                 cv2.putText(frame, f"person #{track_id} {detection.confidence:.2f}", (detection.x1, max(20, detection.y1 - 8)), cv2.FONT_HERSHEY_SIMPLEX, .55, color, 2)
             writer.write(frame)
             frames += 1
+            if max_frames is not None and frames >= max_frames:
+                break
     finally:
         capture.release()
         writer.release()

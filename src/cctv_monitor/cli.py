@@ -34,6 +34,7 @@ def main() -> None:
     video_parser.add_argument("--csv", dest="csv_path", default="events.csv")
     video_parser.add_argument("--zone", default="unconfigured")
     video_parser.add_argument("--persistence", type=int, default=3)
+    video_parser.add_argument("--max-frames", type=int, default=None, help="stop after N frames; useful for live-camera smoke tests")
     dashboard_parser = sub.add_parser("dashboard", help="serve local event API and review page")
     dashboard_parser.add_argument("--database", default="events.sqlite3")
     dashboard_parser.add_argument("--host", default="127.0.0.1")
@@ -43,7 +44,8 @@ def main() -> None:
         demo(args.database, args.csv_path)
     elif args.command == "video":
         from .video import HOGPersonDetector, process_video
-        frames = process_video(args.source, args.output, HOGPersonDetector(), Policy(args.zone, persistence=args.persistence), args.database, args.csv_path)
+        source = int(args.source) if args.source.isdigit() else args.source
+        frames = process_video(source, args.output, HOGPersonDetector(), Policy(args.zone, persistence=args.persistence), args.database, args.csv_path, args.max_frames)
         print(f"processed {frames} frames; wrote {args.output}, {args.database}, and {args.csv_path}")
     elif args.command == "dashboard":
         from .dashboard import serve
