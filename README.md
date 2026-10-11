@@ -23,6 +23,14 @@ python -m cctv_monitor demo --database demo.sqlite3 --csv events.csv
 python -m pytest
 ```
 
+For a recorded MP4, run the local CPU detector and write an annotated video plus local reports:
+
+```bash
+python -m cctv_monitor video input.mp4 --output annotated.mp4 --database events.sqlite3 --csv events.csv
+```
+
+The built-in OpenCV HOG detector identifies people only. PPE classes are not inferred by this detector and must not be represented as detected; a PPE model adapter is a separate milestone.
+
 The demo uses synthetic observations only. It creates a local SQLite database and CSV report.
 
 ## Status vocabulary

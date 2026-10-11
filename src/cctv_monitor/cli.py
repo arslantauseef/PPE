@@ -27,7 +27,18 @@ def main() -> None:
     demo_parser = sub.add_parser("demo")
     demo_parser.add_argument("--database", default="demo.sqlite3")
     demo_parser.add_argument("--csv", dest="csv_path", default="events.csv")
+    video_parser = sub.add_parser("video", help="process an MP4 with the local OpenCV person detector")
+    video_parser.add_argument("source")
+    video_parser.add_argument("--output", default="annotated.mp4")
+    video_parser.add_argument("--database", default="events.sqlite3")
+    video_parser.add_argument("--csv", dest="csv_path", default="events.csv")
+    video_parser.add_argument("--zone", default="unconfigured")
+    video_parser.add_argument("--persistence", type=int, default=3)
     args = parser.parse_args()
     if args.command == "demo":
         demo(args.database, args.csv_path)
+    elif args.command == "video":
+        from .video import HOGPersonDetector, process_video
+        frames = process_video(args.source, args.output, HOGPersonDetector(), Policy(args.zone, persistence=args.persistence), args.database, args.csv_path)
+        print(f"processed {frames} frames; wrote {args.output}, {args.database}, and {args.csv_path}")
 
